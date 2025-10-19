@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: sample
+    main: .
+    binary: sample
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+  groups:
+    - title: Features
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: Others
+      order: 999
+
+release:
+  github:
+    owner: BrunoKrugel
+    name: sample-release-app
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## Sample Release App {{ .Tag }}
+
+    This release contains the sample binary for the Sample Release App.
+
+    ### Download
+
+    Download the appropriate binary for your platform from the assets below.
+
+  footer: |
+    ## Usage
+
+    Run the voice-api binary:
+
+    ```bash
+    ./voice-api
+    ```
+
+    Make sure to set the required environment variables as described in the README.
+
+    ---
+
+    **Full Changelog**: https://github.com/BrunoKrugel/sample-release-app/compare/{{ .PreviousTag }}...{{ .Tag }}
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
