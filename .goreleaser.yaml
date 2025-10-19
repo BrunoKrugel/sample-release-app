@@ -7,9 +7,9 @@ before:
     - go test ./...
 
 builds:
-  - id: sample
-    main: .
-    binary: sample
+  - id: sample-release-app
+    main: ./cmd/sample-release-app
+    binary: sample-release-app
     env:
       - CGO_ENABLED=0
     goos:
