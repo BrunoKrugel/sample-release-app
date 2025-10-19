@@ -11,7 +11,7 @@ help:
 
 .PHONY: build
 build: ## Builds the application for production
-	go build -ldflags="-w -s" -v -o ./bin/sample .
+	go build -ldflags="-w -s" -o ./bin/sample-release-app ./cmd/sample-release-app/main.go
 
 .PHONY: clean
 clean: ## Runs mod tidy
@@ -27,11 +27,7 @@ update: ## Update go modules
 
 .PHONY: run
 run: ## Execute the application locally
-	go run -race .
-
-.PHONY: example
-example: ## Run the example application
-	go run -race .
+	go run -race ./cmd/sample-release-app/main.go
 
 .PHONY: release
 release: ## Build the application for multiple platforms
