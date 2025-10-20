@@ -13,6 +13,10 @@ help:
 build: ## Builds the application for production
 	go build -ldflags="-w -s" -o ./bin/sample-release-app ./cmd/sample-release-app/main.go
 
+.PHONY: docker-build
+docker-build: ## Build the docker image
+	docker build -t sample-release-app:latest .
+
 .PHONY: clean
 clean: ## Runs mod tidy
 	go mod tidy
