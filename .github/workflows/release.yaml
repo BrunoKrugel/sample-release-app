@@ -68,7 +68,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           set -e
-          IMAGE_NAME="ghcr.io/${{ github.repository }}"
+          IMAGE_NAME="ghcr.io/$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')"
           TAG="${{ steps.bump.outputs.new_tag }}"
           echo "Building Docker image ${IMAGE_NAME}:${TAG}"
           docker build -t "${IMAGE_NAME}:${TAG}" -t "${IMAGE_NAME}:latest" .
